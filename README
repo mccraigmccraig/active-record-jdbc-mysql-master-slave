@@ -1,0 +1,12 @@
+an ActiveRecord-JDBC plugin for working with MySQL master slave databases
+
+- install in vendor/plugins directory
+- use adapter "mysql"
+- use MySQL Connector/J JDBC replication driver: com.mysql.jdbc.ReplicationDriver
+- configure your master and slaves in the MySQL JDBC url in the normal way e.g.
+
+jdbc:mysql://masterhost:3306,slavehost:3307/databasename?autoReconnect=false&useUnicode=true&connectionCollation=utf8_general_ci&characterSetResults=utf8&autoReconnectForPools=true&jdbcCompliantTruncation=false&characterEncoding=utf8
+
+- selects which are outside of a transaction will be sent to the slaves
+- any non-select queries or queries inside a transaction will be sent to the master
+- ActiveRecord::ConnectionAdapters::JdbcAdapter::with_master can be used to force use of the master for all queries 
